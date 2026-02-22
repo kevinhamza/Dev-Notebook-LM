@@ -1,5 +1,2 @@
-time
 flask
 requests
-sqlite3
-os
