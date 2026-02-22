@@ -1,0 +1,86 @@
+<html>
+    <head>
+        <title>Dev Notebook LM - History</title>
+    </head>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;500&display=swap');
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: 'Inter', sans-serif;
+    color: #f8f5f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+body > * {
+    width: 85%;
+    max-width: 950px;
+}
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    margin-top: 50px;
+    margin-bottom: 40px;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #c6a75e;
+    padding-bottom: 12px;
+}
+h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: #c6a75e;
+    margin-top: 20px;
+    margin-bottom: 8px;
+}
+hr {
+    border: none;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #c6a75e, transparent);
+    margin: 40px 0;
+}
+p, pre {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 18px 22px;
+    border-radius: 10px;
+    line-height: 1.6;
+    backdrop-filter: blur(6px);
+    border-left: 3px solid #c6a75e;
+    margin-bottom: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+pre {
+    white-space: pre-wrap;
+    font-family: 'Inter', monospace;
+    font-size: 14px;
+    overflow-x: auto;
+}
+p, pre {
+    animation: fadeIn 0.4s ease-in-out;
+}
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+    <body>
+        <h1>History of Notes</h1>
+        {% for item in data%}
+        <hr>
+        <h3>notes:</h3>
+        <p>{{ item[0] }}</p>
+        <h3>Summary:</h3>
+        <p>{{ item[1] }}</p>
+        <h3>Flashcards:</h3>
+        <pre>{{ item[2] }}</pre>
+        {% endfor %}
+    </body>
+</html>

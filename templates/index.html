@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Dev Notebook LM</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Inter:wght@300;400;500&display=swap');
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    font-family: 'Inter', sans-serif;
+    color: #f8f5f0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+body > * {
+    width: 80%;
+    max-width: 900px;
+}
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    margin-top: 50px;
+    margin-bottom: 10px;
+    color: #f8f5f0;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #c6a75e;
+    padding-bottom: 10px;
+}
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    margin-top: 40px;
+    color: #c6a75e;
+}
+textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    background-color: #1e293b;
+    color: #f8f5f0;
+    font-size: 15px;
+    resize: none;
+    outline: none;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
+}
+textarea:focus {
+    border: 1px solid #c6a75e;
+    box-shadow: 0 0 8px rgba(198, 167, 94, 0.6);
+}
+button {
+    margin-top: 15px;
+    padding: 12px 28px;
+    background: #c6a75e;
+    color: #0f172a;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+}
+button:hover {
+    background: #e6c77b;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(198, 167, 94, 0.3);
+}
+p {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px 20px;
+    border-radius: 8px;
+    line-height: 1.6;
+    backdrop-filter: blur(5px);
+    border-left: 3px solid #c6a75e;
+    margin-top: 10px;
+}
+a {
+    display: inline-block;
+    margin-top: 15px;
+    text-decoration: none;
+    color: #c6a75e;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid rgba(198, 167, 94, 0.2);
+}
+
+a:hover {
+    color: #ffffff;
+    letter-spacing: 0.5px;
+}
+p:last-of-type {
+    margin-top: 40px;
+    font-size: 14px;
+    opacity: 0.8;
+    background: none;
+    border: none;
+}
+    </style>
+    <body>
+        <h1>Dev Notebook LM : </h1>
+        <br>
+        <form method="POST">
+            <textarea id="notes" name="notes" rows="10" cols="60"></textarea>
+            <button type="submit">Submit</button>
+        </form>
+            <h2>Summary:</h2>
+            <p>{{ result }}</p>
+            <h2>Flashcards:</h2>
+            <p>{{ flashcard }}</p>
+            <br>
+            <a href="/history">View History Notes</a>
+            <br>
+            <a href="/study">Study Flashcards</a>
+            <br>
+            <a href="/logout">Logout</a>
+            <br>
+            <p>Login as: {{ session["user"] }}</p>
+    </body>
+</html>
