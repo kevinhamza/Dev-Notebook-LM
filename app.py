@@ -8,8 +8,6 @@ import os
 app = Flask(__name__)
 app.secret_key = "devbooklm-secret-key"
 
-init_db() # temp add for vercel
-
 @app.route("/", methods=["GET", "POST"])
 def home():
     if "user" not in session:
@@ -103,6 +101,10 @@ def init_db():
     """)
     conn.commit()
     conn.close()
+
+init_db() # temp add for vercel
+
+
 def parse_flashcards(text):
     lines = text.split("\n")
     cards = []
