@@ -164,6 +164,7 @@ def logout():
     return redirect(url_for("login"))
 if __name__ == "__main__":
     # init_db() for vercel comment
-    app.run(debug=True)
+    app.run() # can debug=True for testing
 
-handler = app
+
+
