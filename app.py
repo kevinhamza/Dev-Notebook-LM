@@ -7,6 +7,9 @@ import os
 
 app = Flask(__name__)
 app.secret_key = "devbooklm-secret-key"
+
+init_db() # temp add for vercel
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     if "user" not in session:
@@ -17,7 +20,7 @@ def home():
         notes = request.form["notes"]
         result = get_ai_summary(notes)
         flashcard = generate_flashcard(notes)
-        conn = sqlite3.connect("notes.db")
+        conn = sqlite3.connect("/tmp/notes.db") # tmp add for vercel
         cursor = conn.cursor()
         username = session["user"]
         cursor.execute(
@@ -89,7 +92,7 @@ def generate_flashcard(text):
     return "Failed to generate flashcards after multiple attempts. Please try again later."
 
 def init_db():
-    conn = sqlite3.connect("notes.db")
+    conn = sqlite3.connect("/tmp/notes.db") # for vercel
     cursor = conn.cursor()
     cursor.execute("""CREATE TABLE IF NOT EXISTS notes(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -122,7 +125,7 @@ def parse_flashcards(text):
 def study():
     if "user" not in session:
         return redirect(url_for("login"))
-    conn = sqlite3.connect("notes.db")
+    conn = sqlite3.connect("/tmp/notes.db")
     cursor = conn.cursor()
     username = session["user"]
     cursor.execute("SELECT flashcards FROM notes WHERE username = ? ORDER BY id DESC LIMIT 1", (username,))
@@ -138,7 +141,7 @@ def study():
 def history():
     if "user" not in session:
         return redirect(url_for("login"))
-    conn = sqlite3.connect("notes.db")
+    conn = sqlite3.connect("/tmp/notes.db")
     cursor = conn.cursor()
     username = session["user"]
     cursor.execute("SELECT content, summary, flashcards FROM notes WHERE username = ? ORDER BY id DESC", (username,))
@@ -158,7 +161,7 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 if __name__ == "__main__":
-    init_db()
+    # init_db() for vercel comment
     app.run(debug=True)
 
 handler = app
