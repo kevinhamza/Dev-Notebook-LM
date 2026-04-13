@@ -9,10 +9,6 @@ A simple personal study notebook web app that summarizes pasted notes and genera
 - **Study mode**: View the most recently generated flashcards in a simple study view.
 
 
-**Requirements**
-- Python 3.8+ (or compatible)
-- See `requirements.txt` for the Python packages used (Flask, requests).
-
 **Environment variables**
 - `HF_API_KEY` - (required)
 
@@ -30,7 +26,7 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-3. Export your Hugging Face API key (example for Linux/macOS):
+3. Export your Hugging Face API key:
 
 ```bash
 export HF_API_KEY="your_hf_api_key_here"
