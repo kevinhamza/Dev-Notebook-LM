@@ -6,7 +6,7 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-app.secret_key = "devbooklm-secret-key"
+app.secret_key = "hakdjsjsiieeaajjdjdjxncnxmsms"
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -16,7 +16,7 @@ def home():
     flashcard=""
     if request.method == "POST":
         notes = request.form["notes"]
-        result = get_ai_summary(notes)
+        result = get_summary(notes)
         flashcard = generate_flashcard(notes)
         conn = sqlite3.connect("/tmp/notes.db") # tmp add for vercel
         cursor = conn.cursor()
@@ -28,7 +28,7 @@ def home():
         conn.commit()
         conn.close()
     return render_template("index.html", result=result, flashcard=flashcard)
-def get_ai_summary(text):
+def get_summary(text):
     API_URL = "https://router.huggingface.co/v1/chat/completions"
     headers = {
         "Authorization" : f"Bearer {os.getenv('HF_API_KEY')}",
@@ -37,23 +37,16 @@ def get_ai_summary(text):
     payload = {
         "model" : "deepseek-ai/DeepSeek-V3.2:novita",
         "messages" : [
-            {"role" : "system", "content" : "You are an expert summarizer."},
-            {"role" : "user", "content" : f"Summarize this text in as few words as possible while retaining key information:\n{text}"}
+            {"role" : "system", "content" : "You are an expert summarizer"},
+            {"role" : "user", "content" : f"Summarize this text in as few words as possible while keep all concepts:\n{text}"}
         ]
     }
-    response = requests.post(API_URL, headers = headers, json = payload, timeout=30)
+    res = requests.post(API_URL, headers = headers, json = payload, timeout=30)
     try:
-        data = response.json()
-    except Exception:
-        return f"Error parsing response: {response.text}"
-    if isinstance(data, list) and "generated_text" in data[0]:
-        return data[0]["generated_text"]
-    elif isinstance(data, dict) and "choices" in data and len(data["choices"]) > 0:
-        return data["choices"][0]["message"]["content"]
-    elif isinstance(data, dict) and "error" in data:
-        return f"API Error: {data['error']}"
-    else:
+        data = res.json()
         return str(data)
+    except Exception:
+        return f"Error parsing response: {res.text}"
 def generate_flashcard(text):
     API_URL = "https://router.huggingface.co/v1/chat/completions"
     headers = {"Authorization" : f"Bearer {os.getenv('HF_API_KEY')}",
@@ -72,18 +65,9 @@ def generate_flashcard(text):
             response = requests.post(API_URL, headers = headers, json=payload, timeout=30)
             try:
                 data = response.json()
+                return str(data)
             except Exception:
                 data = {"error" : f"Non-JSON response: {response.text[:200]}"}
-            if "error" in data and "loading" in data["error"].lower():
-                print(f"Attempt {attempt+1} : Model is loading, retrying in 10 seconds...")
-                time.sleep(10)
-                continue
-            if isinstance(data, list) and "generated_text" in data[0]:
-                return data[0]["generated_text"]
-            elif isinstance(data, dict) and "choices" in data and len(data["choices"]) > 0:
-                return data["choices"][0]["message"]["content"]
-            
-            return str(data)
         except Exception as e:
             print(f"Attempt {attempt+1} : Error occurred: {e}. Retrying in 5 seconds...")
             time.sleep(5)
@@ -102,8 +86,7 @@ def init_db():
     conn.commit()
     conn.close()
 
-init_db() # temp add for vercel
-
+init_db()
 
 def parse_flashcards(text):
     lines = text.split("\n")
@@ -163,8 +146,6 @@ def logout():
     session.clear()
     return redirect(url_for("login"))
 if __name__ == "__main__":
-    # init_db() for vercel comment
-    app.run() # can debug=True for testing
-
+    app.run()
 
 
