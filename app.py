@@ -35,7 +35,7 @@ def get_summary(text):
         "Content-Type" : "application/json"
     }
     payload = {
-        "model" : "deepseek-ai/DeepSeek-V3.2:novita",
+        "model" : "meta-llama/Meta-Llama-3-8B-Instruct",
         "messages" : [
             {"role" : "system", "content" : "You are an expert summarizer"},
             {"role" : "user", "content" : f"Summarize this text in as few words as possible while keep all concepts:\n{text}"}
@@ -53,7 +53,7 @@ def generate_flashcard(text):
             "Content-Type" : "application/json"
             }
     payload = {
-        "model": "deepseek-ai/DeepSeek-V3.2:fastest",
+        "model": "meta-llama/Meta-Llama-3-8B-Instruct",
         "messages": [
             {"role": "system", "content": "You are an expert teacher."},
             {"role": "user", "content": f"Generate study flashcards from this text and also adjust the numbers of Questions and answers according to the text length and each question and answer should be concise and clear and on each line:\n{text}\nFormat as:\nQ1: <question>\nA1: <answer>\nQ2: <question>\nA2: <answer>\nQ3: <question>\nA3: <answer>\nQn: <question>\nAn: <answer>"}
