@@ -40,6 +40,15 @@ python app.py
 
 5. Open http://127.0.0.1:5000 in your browser.
 
+# Screenshots
+
+<p align="center">
+  <img src="./src/Screenshot From 2026-02-23 06-19-23.png" width="600"/>
+  <img src="./src/Screenshot From 2026-02-23 06-19-34.png" width="600"/>
+  <img src="./src/Screenshot From 2026-02-23 06-19-46.png" width="600"/>
+</p>
+
+
 ## Author
 
 Developed by Devin
