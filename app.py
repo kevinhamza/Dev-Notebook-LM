@@ -15,7 +15,9 @@ def home():
     result=""
     flashcard=""
     if request.method == "POST":
-        notes = request.form["notes"]
+        notes = request.form.get("notes", "").strip()
+        if not notes:
+            return render_template("index.html", result="Please enter some text", flashcard="")
         result = get_summary(notes)
         flashcard = generate_flashcard(notes)
         conn = sqlite3.connect("/tmp/notes.db") # tmp add for vercel
@@ -44,7 +46,7 @@ def get_summary(text):
     res = requests.post(API_URL, headers = headers, json = payload, timeout=30)
     try:
         data = res.json()
-        return str(data)
+        return data["choices"][0]["message"]["content"]
     except Exception:
         return f"Error parsing response: {res.text}"
 def generate_flashcard(text):
@@ -65,7 +67,7 @@ def generate_flashcard(text):
             response = requests.post(API_URL, headers = headers, json=payload, timeout=30)
             try:
                 data = response.json()
-                return str(data)
+                return data["choices"][0]["message"]["content"]
             except Exception:
                 data = {"error" : f"Non-JSON response: {response.text[:200]}"}
         except Exception as e:
